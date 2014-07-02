@@ -1,4 +1,4 @@
-package com.example.com.zakoi.social.slangapp;
+package com.zakoi.social.slangApp;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import android.app.IntentService;

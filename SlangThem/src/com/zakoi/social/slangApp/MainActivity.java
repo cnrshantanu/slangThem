@@ -1,7 +1,9 @@
-package com.zakoi.slangthem;
+package com.zakoi.social.slangApp;
 
 import java.io.IOException;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.zakoi.slangthem.R;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;

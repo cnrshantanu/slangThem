@@ -1,4 +1,4 @@
-package com.example.com.zakoi.social.slangapp;
+package com.zakoi.social.slangApp;
 
 import android.app.Activity;
 import android.content.ComponentName;
