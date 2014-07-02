@@ -2,7 +2,7 @@ package com.zakoi.social.slangApp;
 
 import java.io.IOException;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.zakoi.slangthem.R;
+import com.zakoi.social.slangApp.R;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ public class MainActivity extends Activity implements OnClickListener {
     EditText etRegId;
     GoogleCloudMessaging gcm;
     String regid;
-    String PROJECT_NUMBER = "102488860000";
+    String PROJECT_NUMBER = "236960445058";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
