@@ -146,7 +146,7 @@ public class GcmUtil {
 	                    if (gcm == null) {
 	                        gcm = GoogleCloudMessaging.getInstance(context);
 	                    }
-	                    regid = gcm.register(Common.getSenderId1());
+	                    regid = gcm.register(Common.getSenderId());
 	                    msg = "Device registered, registration ID=" + regid;
 	                    
 	                    Log.i("debug",msg);

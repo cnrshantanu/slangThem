@@ -70,7 +70,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		actionBar.setTitle("god knows why");//(Common.getChatId());
 		actionBar.setSubtitle("connecting...");
 		
-		if (!TextUtils.isEmpty(Common.getServerUrl1()) && !TextUtils.isEmpty(Common.getSenderId1()) && gcmUtil.register(this)) {
+		if (!TextUtils.isEmpty(Common.getServerUrl()) && !TextUtils.isEmpty(Common.getSenderId()) && gcmUtil.register(this)) {
 			onRegister(true);
 		} else {
 			onRegister(false);
