@@ -108,7 +108,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+		getMenuInflater().inflate(R.menu.friend_list_menu, menu);
 		return true;
 	}
 	

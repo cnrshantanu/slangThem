@@ -11,15 +11,18 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.zakoi.social.slangApp.gcm.ServerUtilities;
 
-public class ChatActivity extends Activity implements MessagesFragment.OnFragmentInteractionListener, EditContactDialog.OnFragmentInteractionListener {
+public class ChatActivity extends Activity implements MessagesFragment.OnFragmentInteractionListener, EditContactDialog.OnFragmentInteractionListener, OnClickListener {
 
 	private EditText msgEdit;
 	private String profileId;
@@ -34,9 +37,12 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
 		
 		profileId = getIntent().getStringExtra(Common.PROFILE_ID);
 		msgEdit = (EditText) findViewById(R.id.msg_edit);
-		
+				
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		
+		Button btn1 = (Button)findViewById(R.id.send_btn);
+		btn1.setOnClickListener(this);
 		
 		Cursor c = getContentResolver().query(Uri.withAppendedPath(DataProvider.CONTENT_URI_PROFILE, profileId), null, null, null, null);
 		if (c.moveToFirst()) {
@@ -46,6 +52,7 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
 			actionBar.setTitle(profileName);
 			actionBar.setSubtitle(profileChatId);
 		}
+	     
 	}	
 	
 	@Override
@@ -54,19 +61,19 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
 		Common.setCurrentChat(profileChatId);
 	}
 
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.chat, menu);
+		getMenuInflater().inflate(R.menu.chat_menu, menu);
 		
 		if (!isGroup) menu.findItem(R.id.action_share).setVisible(false);
 		return true;
 	}	
-	*/
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		/*case R.id.action_share:
+		case R.id.action_share:
 			Util.share(this, profileChatId, isGroup);
 			return true;		
 		
@@ -83,7 +90,7 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
 			getContentResolver().delete(Uri.withAppendedPath(DataProvider.CONTENT_URI_PROFILE, profileId), null, null);
 			finish();
 			return true;			
-	*/		
+			
 		case android.R.id.home:
 			Intent intent = new Intent(this, MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -94,9 +101,12 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
 	}
 
 	public void onClick(View v) {
+		Log.i("Chat Activity","on click");
 		switch(v.getId()) {
 		case R.id.send_btn:
+			Log.i("Chat Activity","send button pressed");
 			String msg = msgEdit.getText().toString();
+			Log.i("Chat Activity","message "+ msg);
 			if (!TextUtils.isEmpty(msg)) {
 				send(msg);
 				msgEdit.setText(null);
@@ -116,6 +126,7 @@ public class ChatActivity extends Activity implements MessagesFragment.OnFragmen
 	}	
 	
 	private void send(final String txt) {
+		Log.i("Chat Activity","sending");
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
