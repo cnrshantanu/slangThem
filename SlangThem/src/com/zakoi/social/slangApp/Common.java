@@ -32,7 +32,7 @@ public class Common extends Application {
 	}
 	
 	public static String getChatId() {
-		return prefs.getString("chat_id","why");
+		return prefs.getString("chat_id","");
 	}
 	
 	/*public static String getChatId1() {

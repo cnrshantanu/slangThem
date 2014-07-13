@@ -67,7 +67,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	
 	private void connect() {
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle("god knows why");//(Common.getChatId());
+		actionBar.setTitle(Common.getChatId());
 		actionBar.setSubtitle("connecting...");
 		
 		if (!TextUtils.isEmpty(Common.getServerUrl()) && !TextUtils.isEmpty(Common.getSenderId()) && gcmUtil.register(this)) {
@@ -108,17 +108,16 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.action_bar_menu, menu);
 		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		/*case R.id.action_share:
+		case R.id.action_share:
 			Util.share(this, Common.getChatId(), false);
-			return true;*/		
-		
+			return true;		
 		case R.id.action_add:
 			AddContactDialog dialog = new AddContactDialog();
 			dialog.show(getFragmentManager(), "AddContactDialog");

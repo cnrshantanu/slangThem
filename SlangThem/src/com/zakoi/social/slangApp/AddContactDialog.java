@@ -44,7 +44,7 @@ public class AddContactDialog extends DialogFragment {
 						if (TextUtils.isEmpty(chatId)) {
 							et.setError("Chat ID is required");
 							return;
-						} else if (chatId.length()<2 || chatId.length()>3) {
+						} else if (chatId.length()<2) {
 							et.setError("Invalid Chat ID");
 							return;							
 						}

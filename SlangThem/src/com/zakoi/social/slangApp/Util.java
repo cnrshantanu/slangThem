@@ -20,7 +20,7 @@ public class Util {
 			sendIntent.putExtra(Intent.EXTRA_TEXT, "My group ID is " + chatId);
 
 		} else {
-			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Invitation to chat");
+			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Slang them !! Join the network and Start Slanging :)");
 			sendIntent.putExtra(Intent.EXTRA_TEXT, "My chat ID is " + chatId);
 		}
 		
