@@ -1,19 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" 
-    android:orientation="vertical" >   
-
-    <Button 
-        android:id="@+id/btnGetRegId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get RegId"/>
-
-    <EditText
-        android:id="@+id/etRegId"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
-
-</LinearLayout>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/action_add"
+        android:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/action_add"/>   
+ 
+    <item
+        android:id="@+id/action_settings"
+        android:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/action_settings"/>
+</menu>

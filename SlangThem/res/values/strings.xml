@@ -4,5 +4,9 @@
     <string name="app_name">SlangThem</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="action_add">Add</string>
+    <string name="pref_title_server_url">lol what is </string>
+    <string name="pref_title_sender_id">pref_title_sender_id</string>
+    <string name="pref_header_messaging">pref_header_messaging</string>
 
 </resources>

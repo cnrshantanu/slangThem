@@ -1,64 +1,177 @@
 package com.zakoi.social.slangApp;
 
-import java.io.IOException;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.zakoi.social.slangApp.R;
-
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener {
+import com.zakoi.social.slangApp.gcm.GcmListener;
+import com.zakoi.social.slangApp.gcm.GcmUtil;
 
-    Button btnRegId;
-    EditText etRegId;
-    GoogleCloudMessaging gcm;
-    String regid;
-    String PROJECT_NUMBER = "236960445058";
+public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>, GcmListener {
+	
+	private SimpleCursorAdapter adapter;
+	private AlertDialog disclaimer;
+	
+	private GcmUtil gcmUtil;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		adapter = new SimpleCursorAdapter(this, 
+				R.layout.main_list_item, 
+				null, 
+				new String[]{DataProvider.COL_NAME, DataProvider.COL_COUNT}, 
+				new int[]{R.id.text1, R.id.text2},
+				0);
+		
+		adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+				switch(view.getId()) {
+				case R.id.text2:
+					int count = cursor.getInt(columnIndex);
+					if (count > 0) {
+						((TextView)view).setText(String.format("%d new message%s", count, count==1 ? "" : "s"));
+					}
+					return true;					
+				}
+				return false;
+			}
+		});
+		
+		setListAdapter(adapter);
+		
+		gcmUtil = new GcmUtil(getApplicationContext());
+		connect();
+		
+		getLoaderManager().initLoader(0, null, this);
+		//disclaimer = Disclaimer.show(this);
+	}
+	
+	private void connect() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle("god knows why");//(Common.getChatId());
+		actionBar.setSubtitle("connecting...");
+		
+		if (!TextUtils.isEmpty(Common.getServerUrl1()) && !TextUtils.isEmpty(Common.getSenderId1()) && gcmUtil.register(this)) {
+			onRegister(true);
+		} else {
+			onRegister(false);
+		}		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (disclaimer == null) {
+			boolean noServerUrl = TextUtils.isEmpty(Common.getServerUrl());
+			boolean noSenderId = TextUtils.isEmpty(Common.getSenderId());
+			
+			if (noServerUrl && noSenderId) {
+				Toast.makeText(this, "Enter Server Url and Sender Id in Settings", Toast.LENGTH_LONG).show();
+			} else if (noServerUrl) {
+				Toast.makeText(this, "Enter Server Url in Settings", Toast.LENGTH_LONG).show();
+			} else if (noSenderId) {
+				Toast.makeText(this, "Enter Sender Id in Settings", Toast.LENGTH_LONG).show();
+			} else if (TextUtils.isEmpty(Common.getChatId())) {
+				connect();
+			}
+		}
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	@Override
+	public void onRegister(boolean status) {
+		if (status) {
+			getActionBar().setTitle(Common.getChatId());
+			getActionBar().setSubtitle("online");
+		} else {
+			getActionBar().setSubtitle("offline");
+		}
+	}
 
-        btnRegId = (Button) findViewById(R.id.btnGetRegId);
-        etRegId = (EditText) findViewById(R.id.etRegId);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		/*case R.id.action_share:
+			Util.share(this, Common.getChatId(), false);
+			return true;*/		
+		
+		case R.id.action_add:
+			AddContactDialog dialog = new AddContactDialog();
+			dialog.show(getFragmentManager(), "AddContactDialog");
+			return true;
+			
+		/*case R.id.action_create:
+			new CreateGroupTask(this).execute();
+			return true;		*/	
+			
+		/*case R.id.action_settings:
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;			*/
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Intent intent = new Intent(this, ChatActivity.class);
+		intent.putExtra(Common.PROFILE_ID, String.valueOf(id));
+		startActivity(intent);
+	}	
 
-        btnRegId.setOnClickListener(this);
-    }
-    public void getRegId(){
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String msg = "";
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                    }
-                    regid = gcm.register(PROJECT_NUMBER);
-                    msg = "Device registered, registration ID=" + regid;
-                    Log.i("GCM",  msg);
+	@Override
+	protected void onDestroy() {
+		if (disclaimer != null) 
+			disclaimer.dismiss();
+		gcmUtil.cleanup();
+		super.onDestroy();
+	}	
+	
+	//----------------------------------------------------------------------------
 
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		CursorLoader loader = new CursorLoader(this, 
+				DataProvider.CONTENT_URI_PROFILE, 
+				new String[]{DataProvider.COL_ID, DataProvider.COL_NAME, DataProvider.COL_COUNT}, 
+				null, 
+				null, 
+				DataProvider.COL_COUNT + " DESC, " + DataProvider.COL_ID + " DESC"); 
+		return loader;
+	}
 
-                }
-                return msg;
-            }
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		adapter.swapCursor(data);
+	}
 
-            @Override
-            protected void onPostExecute(String msg) {
-                etRegId.setText(msg + "\n");
-            }
-        }.execute(null, null, null);
-    }
-    @Override
-    public void onClick(View v) {
-        getRegId();
-    } 
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		adapter.swapCursor(null);
+	}	
+
 }
