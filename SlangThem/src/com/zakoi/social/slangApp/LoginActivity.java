@@ -194,10 +194,10 @@ public class LoginActivity extends Activity implements OnClickListener,
                 Log.e(TAG, "Name: " + personName + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + email
                         + ", Image: " + personPhotoUrl);
- 
+                
                 txtName.setText(personName);
                 txtEmail.setText(email);
- 
+                
                 // by default the profile url gives 50x50 px image only
                 // we can replace the value with whatever dimension we want by
                 // replacing sz=X
@@ -206,6 +206,10 @@ public class LoginActivity extends Activity implements OnClickListener,
                         + PROFILE_PIC_SIZE;
  
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
+                
+                Common.setChatId(email);
+            	Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            	startActivity(i);
  
             } else {
                 Toast.makeText(getApplicationContext(),
