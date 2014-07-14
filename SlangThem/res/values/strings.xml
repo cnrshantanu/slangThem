@@ -8,5 +8,7 @@
     <string name="pref_title_server_url">lol what is </string>
     <string name="pref_title_sender_id">pref_title_sender_id</string>
     <string name="pref_header_messaging">pref_header_messaging</string>
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
 
 </resources>
