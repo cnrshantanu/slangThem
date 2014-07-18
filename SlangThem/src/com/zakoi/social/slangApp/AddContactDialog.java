@@ -21,7 +21,7 @@ public class AddContactDialog extends DialogFragment {
 		final Context ctx = getActivity();
 		
 		final EditText et = new EditText(ctx);
-		et.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+		et.setInputType(InputType.TYPE_CLASS_TEXT);
 		et.setHint(Common.getChatId());
 		
 		final AlertDialog alert = new AlertDialog.Builder(ctx)

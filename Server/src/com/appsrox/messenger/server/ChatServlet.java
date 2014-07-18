@@ -63,7 +63,7 @@ public class ChatServlet extends HttpServlet {
 					//logger.log(Level.WARNING, to + " new member: " + from);
 				}				
 				
-			} else if (to.length() == 3) {//contact
+			} else if (to.length() > 3) {//contact
 				Contact toContact = Contact.find(to, em);
 				if (toContact == null) {
 					err(resp, "Contact "+to+" not found");
