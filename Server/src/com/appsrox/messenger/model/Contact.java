@@ -17,6 +17,7 @@ public class Contact {
 	private Long id;
 	private String chatId;
 	private String regId;
+	private String name;
 	
 	public Contact() {}
 	
@@ -25,6 +26,11 @@ public class Contact {
 		this.regId = regId;
 	}
 	
+	public Contact(String chatId, String regId, String name) {
+		this.chatId = this.chatId;
+		this.regId = regId;
+		this.name = name;
+	}
 	public static Contact find(String chatId, EntityManager em) {
 		Query q = em.createQuery("select c from Contact c where c.chatId = :chatId");
 		q.setParameter("chatId", chatId);
@@ -50,6 +56,12 @@ public class Contact {
 	}
 	public void setRegId(String regId) {
 		this.regId = regId;
+	}
+	public String getName() {
+		return regId;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
