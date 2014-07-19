@@ -1,4 +1,4 @@
-package com.appsrox.messenger.server;
+package com.zakoi.messenger.server;
 import java.io.IOException;
 import java.util.logging.Logger;
 

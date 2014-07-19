@@ -1,4 +1,4 @@
-package com.appsrox.messenger.server;
+package com.zakoi.messenger.server;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.appsrox.messenger.model.EMFService;
-import com.appsrox.messenger.model.Group;
+import com.zakoi.messenger.model.EMFService;
+import com.zakoi.messenger.model.Group;
 
 @SuppressWarnings("serial")
 public class GroupServlet extends HttpServlet {

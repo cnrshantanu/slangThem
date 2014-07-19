@@ -1,4 +1,4 @@
-package com.appsrox.messenger.server;
+package com.zakoi.messenger.server;
 
 public class Constants {
 

@@ -1,4 +1,4 @@
-package com.appsrox.messenger.model;
+package com.zakoi.messenger.model;
 
 import java.util.List;
 

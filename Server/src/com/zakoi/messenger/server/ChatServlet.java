@@ -1,4 +1,4 @@
-package com.appsrox.messenger.server;
+package com.zakoi.messenger.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.appsrox.messenger.model.Contact;
-import com.appsrox.messenger.model.EMFService;
-import com.appsrox.messenger.model.Group;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
+import com.zakoi.messenger.model.Contact;
+import com.zakoi.messenger.model.EMFService;
+import com.zakoi.messenger.model.Group;
 
 @SuppressWarnings("serial")
 public class ChatServlet extends HttpServlet {

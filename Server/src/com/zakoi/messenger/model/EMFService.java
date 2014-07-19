@@ -1,4 +1,4 @@
-package com.appsrox.messenger.model;
+package com.zakoi.messenger.model;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

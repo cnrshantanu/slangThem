@@ -1,4 +1,4 @@
-package com.appsrox.messenger.server;
+package com.zakoi.messenger.server;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.appsrox.messenger.model.Contact;
-import com.appsrox.messenger.model.EMFService;
+import com.zakoi.messenger.model.Contact;
+import com.zakoi.messenger.model.EMFService;
 
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
