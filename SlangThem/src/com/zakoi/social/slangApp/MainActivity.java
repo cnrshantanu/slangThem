@@ -67,7 +67,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	
 	private void connect() {
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(Common.getChatId());
+		actionBar.setTitle(Common.getDisplayName());
 		actionBar.setSubtitle("connecting...");
 		
 		if (!TextUtils.isEmpty(Common.getServerUrl()) && !TextUtils.isEmpty(Common.getSenderId()) && gcmUtil.register(this)) {
@@ -99,7 +99,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	@Override
 	public void onRegister(boolean status) {
 		if (status) {
-			getActionBar().setTitle(Common.getChatId());
+			getActionBar().setTitle(Common.getDisplayName());
 			getActionBar().setSubtitle("online");
 		} else {
 			getActionBar().setSubtitle("offline");

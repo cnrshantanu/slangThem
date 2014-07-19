@@ -27,17 +27,26 @@ public class Common extends Application {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 	
+
+	public static String getPhotoLink() {
+		return prefs.getString("photo_link", "unknown");
+	}
+	
+	public static void setPhotoLink(String photoLink) {
+		prefs.edit().putString("photo_link", photoLink).commit();
+	}
+	
 	public static String getDisplayName() {
-		return prefs.getString("display_name", "");
+		return prefs.getString("display_name", "unknown");
+	}
+	
+	public static void setDisplayName(String displayName) {
+		prefs.edit().putString("display_name", displayName).commit();
 	}
 	
 	public static String getChatId() {
 		return prefs.getString("chat_id","");
 	}
-	
-	/*public static String getChatId1() {
-		return "shan";
-	}*/
 	
 	public static void setChatId(String chatId) {
 		prefs.edit().putString("chat_id", chatId).commit();
@@ -58,23 +67,11 @@ public class Common extends Application {
 		return prefs.getString("notifications_new_message_ringtone", android.provider.Settings.System.DEFAULT_NOTIFICATION_URI.toString());
 	}
 	
-	/*public static String getServerUrl1() {
-		String SERVER_URL = "http://learned-ocean-628.appspot.com/";
-		return SERVER_URL;
-	}*/
-	
 	public static String getServerUrl() {
 		return prefs.getString("server_url_pref", Constants.SERVER_URL);
-		//return Constants.SERVER_URL;
 	}
 	
 	public static String getSenderId() {
 		return prefs.getString("sender_id_pref", Constants.SENDER_ID);
-		//return Constants.SENDER_ID;
 	}	
-	/*public static String getSenderId1() {
-		String SENDER_ID = "236960445058";
-		return SENDER_ID;
-	}*/	
-    	
 }

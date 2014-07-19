@@ -157,7 +157,7 @@ public class LoginActivity extends Activity implements OnClickListener,
         getProfileInformation();
  
         // Update the UI after signin
-        updateUI(true);
+        //updateUI(true);
  
     }
  
@@ -204,10 +204,12 @@ public class LoginActivity extends Activity implements OnClickListener,
                 personPhotoUrl = personPhotoUrl.substring(0,
                         personPhotoUrl.length() - 2)
                         + PROFILE_PIC_SIZE;
- 
+                Log.i("TAG","photo url"+personPhotoUrl);
                 new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
                 
                 Common.setChatId(email);
+                Common.setDisplayName(personName);
+                Common.setPhotoLink(personPhotoUrl);
             	Intent i = new Intent(LoginActivity.this, MainActivity.class);
             	startActivity(i);
  
