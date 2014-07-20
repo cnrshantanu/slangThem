@@ -18,6 +18,7 @@ public class Contact {
 	private String chatId;
 	private String regId;
 	private String name;
+	private String pic_url;
 	
 	public Contact() {}
 	
@@ -26,11 +27,13 @@ public class Contact {
 		this.regId = regId;
 	}
 	
-	public Contact(String chatId, String regId, String name) {
-		this.chatId = this.chatId;
+	public Contact(String chatId, String regId, String name,String pic_url) {
+		this.chatId = chatId;
 		this.regId = regId;
 		this.name = name;
+		this.pic_url = pic_url;
 	}
+	
 	public static Contact find(String chatId, EntityManager em) {
 		Query q = em.createQuery("select c from Contact c where c.chatId = :chatId");
 		q.setParameter("chatId", chatId);

@@ -11,5 +11,7 @@ public class Constants {
 	public static final String REG_ID = "regId";
 	public static final String MSG = "msg";
 	public static final String TO = "chatId2";
+	public static final String DISP_NAME = "name";
+	public static final String PIC_URL = "pic_url";
 	
 }

@@ -2,9 +2,7 @@ package com.zakoi.social.slangApp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.zakoi.social.slangApp.gcm.Constants;
 
@@ -15,9 +13,11 @@ public class Common extends Application {
 	//parameters recognized by demo server
 	public static final String FROM = "chatId";
 	public static final String REG_ID = "regId";
+	public static final String DISP_NAME = "name";
+	public static final String PIC_URL = "pic_url";
 	public static final String MSG = "msg";
 	public static final String TO = "chatId2";	
-	
+		
 	private static SharedPreferences prefs;
 
 	@Override
@@ -28,6 +28,14 @@ public class Common extends Application {
 	}
 	
 
+	public static boolean getLoginStatus() {
+		return prefs.getBoolean("login_status",false);
+	}
+	
+	public static void setLoginStatus(boolean logstatus) {
+		prefs.edit().putBoolean("login_status",logstatus).commit();
+	}
+	
 	public static String getPhotoLink() {
 		return prefs.getString("photo_link", "unknown");
 	}

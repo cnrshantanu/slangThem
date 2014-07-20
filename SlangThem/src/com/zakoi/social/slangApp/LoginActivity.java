@@ -1,6 +1,7 @@
 package com.zakoi.social.slangApp;
 
 import java.io.InputStream;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -62,6 +63,9 @@ public class LoginActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Common.getLoginStatus()) {
+        	startChatListActivity();
+        }
         setContentView(R.layout.activity_login);
  
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -81,6 +85,22 @@ public class LoginActivity extends Activity implements OnClickListener,
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+    }
+    
+    private void startChatListActivity() {
+    	Intent i = new Intent(LoginActivity.this, MainActivity.class);
+    	final Intent mExternalIntent = getIntent();
+    	if(mExternalIntent != null){
+		    final String action = mExternalIntent.getAction();
+	    	if (Intent.ACTION_VIEW.equals(action)) {
+		        i.setData(mExternalIntent.getData());
+		        i.setAction(mExternalIntent.getAction());
+		    }
+    	}
+    	setIntent(null);
+    	finish();
+    	startActivity(i);
+    	
     }
  
     protected void onStart() {
@@ -151,14 +171,10 @@ public class LoginActivity extends Activity implements OnClickListener,
     @Override
     public void onConnected(Bundle arg0) {
         mSignInClicked = false;
-        Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
- 
-        // Get user's information
         getProfileInformation();
- 
-        // Update the UI after signin
-        //updateUI(true);
- 
+        Common.setLoginStatus(true);
+        startChatListActivity();
+        updateUI(true);
     }
  
     /**
@@ -210,8 +226,7 @@ public class LoginActivity extends Activity implements OnClickListener,
                 Common.setChatId(email);
                 Common.setDisplayName(personName);
                 Common.setPhotoLink(personPhotoUrl);
-            	Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            	startActivity(i);
+                startChatListActivity();
  
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -225,6 +240,7 @@ public class LoginActivity extends Activity implements OnClickListener,
     @Override
     public void onConnectionSuspended(int arg0) {
         mGoogleApiClient.connect();
+        Common.setLoginStatus(false);
         updateUI(false);
     }
  
@@ -274,6 +290,7 @@ public class LoginActivity extends Activity implements OnClickListener,
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
             mGoogleApiClient.disconnect();
             mGoogleApiClient.connect();
+            Common.setLoginStatus(false);
             updateUI(false);
         }
     }
@@ -290,6 +307,7 @@ public class LoginActivity extends Activity implements OnClickListener,
                         public void onResult(Status arg0) {
                             Log.e(TAG, "User access revoked!");
                             mGoogleApiClient.connect();
+                            Common.setLoginStatus(false);
                             updateUI(false);
                         }
  

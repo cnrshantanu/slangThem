@@ -65,5 +65,4 @@ public class AddContactDialog extends DialogFragment {
 		
 		return alert;
 	}	
-
 }

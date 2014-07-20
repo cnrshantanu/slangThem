@@ -26,6 +26,8 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String chatId = req.getParameter(Constants.FROM);
 		String regId = req.getParameter(Constants.REG_ID);
+		String disp_name = req.getParameter(Constants.DISP_NAME);
+		String pic_url = req.getParameter(Constants.PIC_URL);
 		//logger.log(Level.WARNING, "RegisterServlet: chatId=" + chatId+", regId="+regId);
 		
 		EntityManager em = EMFService.get().createEntityManager();
@@ -44,7 +46,8 @@ public class RegisterServlet extends HttpServlet {
 			
 			//create or update contact with GCM registration ID
 			if (contact == null) {
-				contact = new Contact(chatId, regId);
+				//contact = new Contact(chatId, regId);
+				contact = new Contact(chatId,regId,disp_name,pic_url);
 			} else {
 				contact.setRegId(regId);
 			}
