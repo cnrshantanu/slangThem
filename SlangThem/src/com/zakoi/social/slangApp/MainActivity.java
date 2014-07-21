@@ -1,16 +1,20 @@
 package com.zakoi.social.slangApp;
 
-import android.annotation.SuppressLint;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +30,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	
 	private SimpleCursorAdapter adapter;
 	private AlertDialog disclaimer;
-	
+	private final String TAG = "MainActivity";
 	private GcmUtil gcmUtil;
 	
 	@Override
@@ -62,12 +66,22 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		connect();
 		
 		getLoaderManager().initLoader(0, null, this);
+	    final Intent intent = getIntent();
+	    final String action = intent.getAction();
+
+	    if (Intent.ACTION_VIEW.equals(action)) {
+	        final List<String> segments = intent.getData().getPathSegments();
+	        if (segments.size() == 1) {
+	           	addUser(segments.get(0),false);
+	           	setIntent(null);
+	        }
+	    }
 		//disclaimer = Disclaimer.show(this);
 	}
 	
 	private void connect() {
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(Common.getChatId());
+		actionBar.setTitle(Common.getDisplayName());
 		actionBar.setSubtitle("connecting...");
 		
 		if (!TextUtils.isEmpty(Common.getServerUrl()) && !TextUtils.isEmpty(Common.getSenderId()) && gcmUtil.register(this)) {
@@ -99,7 +113,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	@Override
 	public void onRegister(boolean status) {
 		if (status) {
-			getActionBar().setTitle(Common.getChatId());
+			getActionBar().setTitle(Common.getDisplayName());
 			getActionBar().setSubtitle("online");
 		} else {
 			getActionBar().setSubtitle("offline");
@@ -172,5 +186,17 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
 	}	
+	
+	private void addUser(String chatId,boolean isGroup){
+		try {
+			ContentValues values = new ContentValues(2);
+			values.put(DataProvider.COL_NAME,chatId);
+			values.put(DataProvider.COL_CHATID, chatId);
+			values.put(DataProvider.COL_ISGROUP, isGroup);
+			getContentResolver().insert(DataProvider.CONTENT_URI_PROFILE, values);
+		} catch (SQLException sqle) { 
+			Toast.makeText(this, "Cannot add user ", Toast.LENGTH_LONG).show();
+		}
+	}
 
 }

@@ -21,7 +21,7 @@ public class Util {
 
 		} else {
 			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Slang them !! Join the network and Start Slanging :)");
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "My chat ID is " + chatId);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "Add me www.zakoi.slangApp.com/" + chatId);
 		}
 		
 		context.startActivity(Intent.createChooser(sendIntent, "Invite via"));

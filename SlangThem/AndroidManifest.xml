@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission android:name="com.zakoi.social.slangApp.permission.C2D_MESSAGE"
@@ -25,14 +26,26 @@
         android:theme="@style/AppTheme" 
         android:name ="com.zakoi.social.slangApp.Common"
         >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
             android:name="com.zakoi.social.slangApp.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.zakoi.social.slangApp.LoginActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+			  <action android:name="android.intent.action.VIEW"></action>
+			  <category android:name="android.intent.category.DEFAULT"></category>
+			  <category android:name="android.intent.category.BROWSABLE"></category>
+			  <data android:host="www.zakoi.slangApp.com" android:scheme="http"></data>
+			</intent-filter>
         </activity>
         <activity
             android:name="com.zakoi.social.slangApp.ChatActivity">

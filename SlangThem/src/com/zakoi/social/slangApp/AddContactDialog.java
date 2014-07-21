@@ -21,7 +21,7 @@ public class AddContactDialog extends DialogFragment {
 		final Context ctx = getActivity();
 		
 		final EditText et = new EditText(ctx);
-		et.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+		et.setInputType(InputType.TYPE_CLASS_TEXT);
 		et.setHint(Common.getChatId());
 		
 		final AlertDialog alert = new AlertDialog.Builder(ctx)
@@ -45,13 +45,13 @@ public class AddContactDialog extends DialogFragment {
 							et.setError("Chat ID is required");
 							return;
 						} else if (chatId.length()<2) {
-							et.setError("Invalid Chat ID");
+							et.setError("Invalid email ID");
 							return;							
 						}
 						
 						try {
 							ContentValues values = new ContentValues(2);
-							values.put(DataProvider.COL_NAME, "Contact_"+chatId);
+							values.put(DataProvider.COL_NAME,chatId);
 							values.put(DataProvider.COL_CHATID, chatId);
 							values.put(DataProvider.COL_ISGROUP, chatId.length()==2);
 							ctx.getContentResolver().insert(DataProvider.CONTENT_URI_PROFILE, values);
@@ -65,5 +65,4 @@ public class AddContactDialog extends DialogFragment {
 		
 		return alert;
 	}	
-
 }

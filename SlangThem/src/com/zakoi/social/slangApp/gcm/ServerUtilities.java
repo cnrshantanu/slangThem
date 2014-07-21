@@ -62,6 +62,23 @@ public final class ServerUtilities {
         }
         return null;
     }
+    
+    public static String register(final String email, final String regId,final String displayName,final String photoUrl) {
+        String serverUrl = Common.getServerUrl() + "/register";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(Common.FROM, email);
+        params.put(Common.REG_ID, regId);
+        params.put(Common.DISP_NAME,displayName);
+        params.put(Common.PIC_URL, photoUrl);
+        // Once GCM returns a registration id, we need to register it in the
+        // demo server. As the server might be down, we will retry it a couple
+        // times.
+        try {
+        	return post(serverUrl, params, MAX_ATTEMPTS);
+        } catch (IOException e) {
+        }
+        return null;
+    }
 
     /**
      * Unregister this account/device pair within the server.

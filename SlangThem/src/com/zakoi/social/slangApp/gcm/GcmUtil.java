@@ -152,7 +152,8 @@ public class GcmUtil {
 	                    Log.i("debug",msg);
 	                    // You should send the registration ID to your server over HTTP, so it
 	                    // can use GCM/HTTP or CCS to send messages to your app.
-	                	String chatId = ServerUtilities.register(Common.getChatId(), regid);
+	                	//String chatId = ServerUtilities.register(Common.getChatId(), regid);
+	                    String chatId = ServerUtilities.register(Common.getChatId(), regid, Common.getDisplayName(),Common.getPhotoLink());
 	                	if (!TextUtils.isEmpty(chatId)) {
 	                		Common.setChatId(chatId);
 	                		
